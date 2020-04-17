@@ -9,10 +9,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPOM {
-	private WebDriver driver; 
+
+public class UNFPOM020 {
+private WebDriver driver; 
+
 	
-	public LoginPOM(WebDriver driver) {
+	public UNFPOM020(WebDriver driver) {
 		this.driver = driver; 
 		PageFactory.initElements(driver, this);
 	}
@@ -26,20 +28,25 @@ public class LoginPOM {
 	@FindBy(xpath="//div[@class='text-right']/button")
 	private WebElement loginBtn; 
 	
-	//******************TestinLogIN POM*******************************
-	@FindBy(id="sale")
-	private WebElement sale; 
 	
-	@FindBy(linkText="Returns")
-	private WebElement Returns;
+
+//POM020	
+	@FindBy(id="customer")
+	private WebElement customer; 
 	
-	@FindBy(xpath="//*[@id='form-return']/div/table/tbody/tr[1]/td[1]/input")
-	private WebElement checkbox;
+	@FindBy(xpath="//*[@id='customer']/a/i")
+	private WebElement customerClick;
 	
-	@FindBy(css=".btn-danger")
-	private WebElement btn; 
+	@FindBy(id="input-name")
+	private WebElement inputName; 
 	
-	//*************************Test End Here***********************************************
+	@FindBy(id="button-filter")
+	private WebElement buttonFilter; 
+
+	@FindBy(id="input-email")
+	private WebElement inputEmail; 
+
+	
 	
 	public void sendUserName(String username) {
 		this.username.clear();
@@ -56,14 +63,12 @@ public class LoginPOM {
 	}
 	
 	public boolean LoginUser(String UserID, String Password){
-	//	public  void LoginUser(String UserID, String Password){
+	
 		try {
 			sendUserName(UserID);
 			sendPassword(Password);
 			clickLoginBtn();
-			//***************Changes done in Method********************
-			
-			//*****************Changes Ends Here**************************
+
 			
 			return true;
 			
@@ -79,50 +84,45 @@ public class LoginPOM {
 	// Test in LogIn POM************************************
 
 	
-				public void ClickSale() {
-					this.sale.click();
+				public void customer() {
+					this.customer.click();
 					
 				}
 				
-				public void ClickReturns() {
-					this.Returns.click(); 
+				public void customerClick() {
+					this.customerClick.click(); 
 					
 				}
 				
-				public void ClickChkBox(){
-					this.checkbox.click(); 
+				public void inputName(){
+					this.inputName.sendKeys("Neha"); 
 					
 				}
 				
-				public void ClickButton(){
-					this.Returns.click();  
+				public void buttonFilter(){
+					this.buttonFilter.click();  
 					
 				}
 				
-				public void ClickDelBtn() {
-					this.btn.click();
+				public void inputEmail() {
+					this.inputEmail.sendKeys("Neha@ab.com");
 					
 				}
 				
-			public boolean ClckSales(){
+			public boolean CustomerIcon(){
 					try {
 						
-						ClickSale();
-						Thread.sleep(1000);
-						ClickReturns();
-						Thread.sleep(1000);
-						ClickChkBox();
-						Thread.sleep(1000);
-						ClickButton();
+						customer();
 						Thread.sleep(3000);
-						WebElement ele1 = driver.findElement(By.cssSelector(".btn-danger"));
-						driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
-						ele1.click();
-						Alert alert_box = driver.switchTo().alert();
-						alert_box.accept(); 
-					/*	Thread.sleep(3000);
-						ClickDelBtn();*/
-						
+						customerClick();
+						Thread.sleep(3000);
+						inputName();
+						Thread.sleep(3000);
+						buttonFilter();
+						Thread.sleep(3000);
+						inputEmail();
+						Thread.sleep(1000);
+						buttonFilter();
 						return true;
 					} catch (Exception ex) {
 						// TODO Auto-generated catch block
@@ -131,8 +131,6 @@ public class LoginPOM {
 					} 
 					
 				} 
-				
-				//End changes here********************************
 	
 	public WebDriver getDriver()
 	{

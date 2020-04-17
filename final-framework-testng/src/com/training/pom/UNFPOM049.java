@@ -9,10 +9,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPOM {
-	private WebDriver driver; 
+
+public class UNFPOM049 {
+private WebDriver driver; 
+
 	
-	public LoginPOM(WebDriver driver) {
+	public UNFPOM049(WebDriver driver) {
 		this.driver = driver; 
 		PageFactory.initElements(driver, this);
 	}
@@ -38,6 +40,27 @@ public class LoginPOM {
 	
 	@FindBy(css=".btn-danger")
 	private WebElement btn; 
+
+	@FindBy(css=".btn-primary")
+	private WebElement Addbtn; 
+	
+	@FindBy(id="input-order-id")
+	private WebElement inputOrderId; 
+	@FindBy(id="input-firstname")
+	private WebElement inputFirstName; 
+	@FindBy(id="input-lastname")
+	private WebElement inputLastName; 
+	@FindBy(id="input-email")
+	private WebElement inputEmail; 
+	@FindBy(id="input-telephone")
+	private WebElement inputTelephone; 
+	@FindBy(id="input-product")
+	private WebElement inputProduct; 
+	@FindBy(id="input-model")
+	private WebElement inputModel; 
+	@FindBy(xpath="//*[@id='form-return']/div/table/tbody/tr[1]/td[1]")
+	private WebElement SelectForDel;
+	
 	
 	//*************************Test End Here***********************************************
 	
@@ -104,17 +127,67 @@ public class LoginPOM {
 					
 				}
 				
-			public boolean ClckSales(){
+				public void Addbtn() {
+					this.Addbtn.click();
+					
+				}
+				
+				public void inputOrderId() {
+					this.inputOrderId.sendKeys("25");
+					
+				}
+				public void inputFirstName() {
+					this.inputFirstName.sendKeys("Renu");
+					
+				}
+				public void inputLastName() {
+					this.inputLastName.sendKeys("Mathur");
+					
+				}
+				public void inputEmail() {
+					this.inputEmail.sendKeys("Renu.Mathur@gmail.com");
+					
+				}
+				public void inputTelephone() {
+					this.inputTelephone.sendKeys("9453234554");
+					
+				}
+				public void inputProduct() {
+					this.inputProduct.sendKeys("Blazer Girls");
+					
+				}
+				public void inputModel() {
+					this.inputModel.sendKeys("BLG-112");
+					
+				}
+				
+				public void SelectForDel() {
+					this.SelectForDel.click();
+					
+				}			
+				
+				
+			public boolean AddCustomer(){
 					try {
 						
 						ClickSale();
 						Thread.sleep(1000);
 						ClickReturns();
 						Thread.sleep(1000);
-						ClickChkBox();
+						Addbtn();
 						Thread.sleep(1000);
-						ClickButton();
+						inputOrderId();
+						inputFirstName();
+						inputLastName();
+						inputEmail();
+						inputTelephone();
+						inputProduct();
+						inputModel();
+						Addbtn();
 						Thread.sleep(3000);
+						SelectForDel();
+						Thread.sleep(3000);
+						
 						WebElement ele1 = driver.findElement(By.cssSelector(".btn-danger"));
 						driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
 						ele1.click();
@@ -131,8 +204,6 @@ public class LoginPOM {
 					} 
 					
 				} 
-				
-				//End changes here********************************
 	
 	public WebDriver getDriver()
 	{
