@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="6333ffba-9f43-469c-b27c-4b69d97569be" activeEnvironment="Default" name="REST Project 2" soapui-version="5.5.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" id="053220bc-7d96-4f8d-b13b-f951c4897296" wadlVersion="http://wadl.dev.java.net/2009/02" name="https://petstore.swagger.io" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>https://petstore.swagger.io</con:endpoint></con:endpoints><con:resource name="" path="/v2/pet" id="8c01a3ef-2c45-4837-8558-1a796743726b"><con:settings/><con:parameters/><con:method name="post" id="1e174b6a-aa6c-407b-bb68-dcad3e928738" method="POST"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:pet="https://petstore.swagger.io/v2/pet">pet:Response</con:element></con:representation><con:request name="Request 1" id="80bc4c1f-ab6f-4013-857f-b102e0e2eb02" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://petstore.swagger.io</con:endpoint><con:request>{
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "doggie",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status": "available"
+}</con:request><con:originalUri>https://petstore.swagger.io/v2/pet</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:request></con:method></con:resource><con:resource name="findByStatus" path="/v2/pet/findByStatus" id="74654d3d-66cd-4af0-b010-499f1a93d4ff"><con:settings/><con:parameters><con:parameter><con:name>status</con:name><con:value/><con:style>QUERY</con:style><con:default/><con:description xsi:nil="true"/></con:parameter></con:parameters><con:method name="Method 1" id="24002d02-d112-4606-9dda-d53260b3df8a" method="GET"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>application/xml</con:mediaType><con:status>404</con:status><con:params/><con:element>apiResponse</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:request name="Request 1" id="3a75cb56-9f8c-4e92-8abd-af801643aeed" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://petstore.swagger.io</con:endpoint><con:request/><con:originalUri>https://petstore.swagger.io/v2/pet/findByStatus/sold</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters><entry key="status" value="sold" xmlns="http://eviware.com/soapui/config"/></con:parameters><con:parameterOrder><con:entry>status</con:entry></con:parameterOrder></con:request></con:method></con:resource></con:interface><con:testSuite id="7b707b39-84fe-488a-9186-ed569d80ec8a" name="TestCase04"><con:description>TestSuite generated for REST Service [https://petstore.swagger.io]</con:description><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="3b59d65a-34aa-4807-bb69-9f370d423943" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase04" searchProperties="true"><con:description>TestCase generated for REST Resource [] located at [/v2/pet]</con:description><con:settings/><con:testStep type="groovy" name="Groovy ScriptTC04" id="b8feead6-c2c0-4483-8c98-eedb7c80cf24"><con:settings/><con:config><script>import java.io.* 
+import jxl.* 
+import jxl.write.* 
+import java.text.SimpleDateFormat
+import groovy.json.JsonSlurper
+//GET 
+log.info("=======================test started for get customer by Id from Excel=======================") 
+
+
+def file=new File('C:/Users/SWATIMOHAPATRA/Desktop/API Testing/API Project/RestTestData.xls') 
+workBook= Workbook.getWorkbook(file) 
+def workSheet=workBook.getSheet(0) 
+rows=workSheet.getRows()	//max row number
+log.info "Total row number - "+rows   
+
+for(def i=1;i&lt;rows;i++) 
+{     
+
+		String c=workSheet.getCell(0,i).getContents()
+		testRunner.testCase.getTestStepByName("PropertiesTC06").setPropertyValue("petid",c)
+
+		String d=workSheet.getCell(1,i).getContents()
+		testRunner.testCase.getTestStepByName("PropertiesTC06").setPropertyValue("petstatus",d)
+
+		testRunner.testCase.testSuite.project.testSuites["TestCase06"].testCases["TestCase06"].testSteps["post"].run(testRunner,context)
+
+		def responseContent = context.testCase.getTestStepByName("post").getPropertyValue("response")
+		slurperResponse = new JsonSlurper().parseText(responseContent)
+
+		log.info slurperResponse.id
+		log.info slurperResponse.status 
+
+
+		String id = slurperResponse.id 
+		testRunner.testCase.getTestStepByName("PropertiesTC06").setPropertyValue("petid",id)
+		testRunner.testCase.testSuite.project.testSuites["TestCase04"].testCases["TestCase06"].testSteps["Get"].run(testRunner,context)
+
+		def responseContentforGet = testRunner.testCase.getTestStepByName("Get").getPropertyValue("response")
+		GetResponse = new JsonSlurper().parseText(responseContentforGet)
+		log.info GetResponse.id
+
+
+
+
+
+
+
+}  
+</script></con:config></con:testStep><con:testStep type="restrequest" name="post" id="36744b8d-1a1b-4923-a4f3-fd1a693d6216"><con:settings/><con:config service="https://petstore.swagger.io" resourcePath="/v2/pet" methodName="post" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="post" id="80bc4c1f-ab6f-4013-857f-b102e0e2eb02" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://petstore.swagger.io</con:endpoint><con:request>{
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "beer",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status": "${PropertiesTC06#petstatus}"
+}</con:request><con:originalUri>https://petstore.swagger.io/v2/pet</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="properties" name="PropertiesTC06" id="fa999506-cf29-49cf-a9f1-dfca6643b180"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>petid</con:name><con:value>1845563262948980912</con:value></con:property><con:property><con:name>petstatus</con:name><con:value>available</con:value></con:property></con:properties></con:config></con:testStep><con:testStep type="restrequest" name="Get" id="5b0f9650-9884-4d1d-bb3b-117d12d82489"><con:settings/><con:config service="https://petstore.swagger.io" resourcePath="/v2/pet/findByStatus" methodName="Method 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="Get" id="3a75cb56-9f8c-4e92-8abd-af801643aeed" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://petstore.swagger.io</con:endpoint><con:request/><con:originalUri>https://petstore.swagger.io/v2/pet/findByStatus/sold</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters><entry key="status" value="${Properties#petstatus}" xmlns="http://eviware.com/soapui/config"/></con:parameters><con:parameterOrder><con:entry>status</con:entry></con:parameterOrder></con:restRequest></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite id="906f3e28-0fdf-413d-882d-7901974fa1ae" name="TestSuite 2"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="0cc38dab-f026-4cf5-8f97-54e847f69c53" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="petorder06" searchProperties="true"><con:settings/><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project> 
